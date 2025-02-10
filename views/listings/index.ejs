@@ -1,0 +1,140 @@
+<% layout('/layouts/boilerplate') %>
+
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-image: url("http://seniorslifestylecare.com/wp-content/uploads/2016/11/bigstock-Helping-hands-care-for-the-el-79012273.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .main-dev {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .card {
+      width: 21rem;
+      height: 20rem;
+      background: white;
+      margin-left: 12px;
+      margin-right: 12px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .card-title {
+      color: black;
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    .btn-primary {
+      text-decoration: none;
+      background-color: transparent;
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background-color: #d5ea5e;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="main-dev">
+    <!-- Daily Tasks Card -->
+    <form action="/listings/task" method="post">
+      <div class="card">
+        <button class="btn btn-primary">
+          <img src="https://pace-ri.org/wp-content/uploads/2023/07/shutterstock_2054430413-scaled-2560x1280.jpg" alt="Image 1">
+          <div class="card-body">
+            <h5 class="card-title">Daily Tasks</h5>
+            <p class="card-text">Helping seniors with everyday activities like cooking, cleaning, and mobility</p>
+          </div>
+        </button>
+      </div>
+    </form>
+
+    <!-- Health Tracking Card -->
+    <form action="/listings/health" method="post">
+      <div class="card">
+        <button class="btn btn-primary">
+          <img src="https://media.istockphoto.com/id/1363170011/photo/smartwatch-for-health-care-a-woman-from-the-medical-health-system-wears-a-smartwatch-for.jpg?s=612x612&w=0&k=20&c=TCA48pt-5I4wTch8QXj_RMM2fdkzp364_JXdYvEfw1I=" alt="Image 3">
+          <div class="card-body">
+            <h5 class="card-title">Health Tracking</h5>
+            <p class="card-text">Monitoring health metrics to ensure well-being and early detection of issues</p>
+          </div>
+        </button>
+      </div>
+    </form>
+
+    <!-- Emergency Contacts Card -->
+    <form action="/listings/emergency" method="post">
+      <div class="card">
+        <button class="btn btn-primary">
+          <img src="https://media.istockphoto.com/id/1458178579/photo/man-use-calling-sos-emergency-by-phone-call-phone-emergency-application-from-smartphone.jpg?s=612x612&w=0&k=20&c=zeELeMfiPbD33O2V6v7YrNsBtsJRoeLF_XK7Vil7oug=" alt="Image 2">
+          <div class="card-body">
+            <h5 class="card-title">Emergency Contacts</h5>
+            <p class="card-text">Providing instant access to medical support and emergency contacts</p>
+          </div>
+        </button>
+      </div>
+    </form>
+
+    <!-- Communication Card -->
+    <form action="/listings/communication" method="post">
+      <div class="card">
+        <button class="btn btn-primary">
+          <img src="https://media.istockphoto.com/id/161002333/photo/group-of-senior-friends-chatting-at-home-together.jpg?s=612x612&w=0&k=20&c=eqmodVmh9xJao11Ynw4Ae8WJntwiCjBVfaavlYRl6go=" alt="Image 4">
+          <div class="card-body">
+            <h5 class="card-title">Communication</h5>
+            <p class="card-text">Facilitating communication between seniors and their loved ones to reduce isolation</p>
+          </div>
+        </button>
+      </div>
+    </form>
+  </div>
+  <hr>
+</body>

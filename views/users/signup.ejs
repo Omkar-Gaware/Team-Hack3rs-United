@@ -1,0 +1,61 @@
+<% layout('/layouts/boilerplate') %>
+<style>
+  body {
+  background-image: url('https://wallpapercave.com/wp/wp9764031.jpg');
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-position: center; /* Centers the background image */
+  background-attachment: fixed; /* Keeps the image fixed when scrolling */
+}
+</style>
+<body>
+  <h2 class="col-6 offset-4" style="color: white; text-decoration: underline;">SignUp for Senior Care</h2>
+<div class="row mt-3">
+  <div class="col-6 offset-3" style="color: white;">
+    <form action="/signup" method="POST" class="needs-validation form" novalidate>
+      <div class="mb">
+        <div class="mb-3">
+          <label for="email" class="form-label mb-1">Email</label>
+          <input
+            id="email"
+            type="text"
+            class="form-control"
+            name="email"
+            required
+          />
+      </div>
+        <label for="username" class="form-label mb-1">Username</label>
+        <input
+          id="username"
+          type="text"
+          class="form-control"
+          name="username"
+          required
+        />
+        <div class="invalid-feedback">Please enter valid Username</div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label mb-1">Password</label>
+        <input
+          id="password"
+          type="password"
+          class="form-control"
+          name="password"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="age">Enter Age</label>
+        <input type="age" name="age" class="form-control" id="age">
+      </div>
+      <div class="mb-3">
+        <label for="phone">Phone No</label>
+        <input type="phone" name="phone" class="form-control" id="phone">
+      </div>
+      <button class="btn btn-primary offset-4 col-3">SignUp</button>
+
+</div>
+    </form>
+  </div>
+</div>
+
+</body>

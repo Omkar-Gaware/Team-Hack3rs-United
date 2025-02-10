@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elderly Care Companion - WhatsApp Chat</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://wallpaperboat.com/wp-content/uploads/2021/04/12/74416/communication-02.jpg');
+            background-size: cover;
+            background-position: center;
+
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            font-size: 16px; /* Base font size */
+        }
+
+        .container {
+            width: 100%; /* Full width */
+            max-width: 600px;
+            background: white;
+            padding: 40px; /* Increased padding */
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: left;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.2em; /* Increased font size */
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 1.2em; /* Increased font size */
+            color: #555;
+        }
+
+        /* Input Fields */
+        .caregiver-info input {
+            width: 100%;
+            padding: 16px; /* Increased padding */
+            margin: 10px 0;
+            font-size: 1.1em; /* Increased font size */
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        .caregiver-info input:focus {
+            border-color: #25D366;
+            outline: none;
+        }
+
+        /* Button Styles */
+        .send-button {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 18px; /* Increased padding */
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.2em; /* Increased font size */
+            transition: background-color 0.3s;
+            margin-top: 15px;
+        }
+
+        .send-button:hover {
+            background-color: #1ebe5d;
+        }
+
+        /* Contact List */
+        .contact-list {
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9f9f9;
+            padding: 16px; /* Increased padding */
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 1.1em; /* Increased font size */
+        }
+
+        .contact-item button {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 18px; /* Increased padding */
+            cursor: pointer;
+            font-size: 0.9em; /* Increased font size */
+        }
+
+        .contact-item button.remove {
+            background-color: #dc3545;
+        }
+
+        .contact-item button:hover {
+            opacity: 0.8;
+        }
+
+        /* Success/Error Messages */
+        .message {
+            margin-top: 20px;
+            padding: 12px; /* Increased padding */
+            font-size: 1.1em; /* Increased font size */
+            border-radius: 8px;
+            color: white;
+            display: none;
+        }
+
+        .success {
+            background-color: #28a745;
+        }
+
+        .error {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        
+        <h1>Elderly Care Companion</h1>
+        <p>Communicate with your caregiver directly through WhatsApp by entering their details.</p>
+
+        <!-- Caregiver Info Input Section -->
+        <div class="caregiver-info">
+            <label for="caregiverName">Caregiver Name</label>
+            <input type="text" id="caregiverName" placeholder="Enter Caregiver Name" />
+
+            <label for="caregiverPhone">Phone Number (with Country Code)</label>
+            <input type="tel" id="caregiverPhone" placeholder="e.g. +91 for India" />
+
+            <button class="send-button" onclick="addContact()">Add Contact</button>
+            <div id="error" class="message error">Please fill out all fields correctly.</div>
+        </div>
+
+        <!-- Contact List -->
+        <div id="contactList" class="contact-list"></div>
+
+        <!-- Success Message -->
+        <div id="success" class="message success">Contact added successfully!</div>
+    </div>
+
+    <script>
+        let contacts = [];
+    
+        // Function to add contact to the list
+        function addContact() {
+            const name = document.getElementById('caregiverName').value.trim();
+            const phone = document.getElementById('caregiverPhone').value.trim();
+    
+            if (name && phone) {
+                const phoneRegex = /^[+][0-9]{1,4}[0-9]{7,12}$/;
+                if (!phoneRegex.test(phone)) {
+                    showError("Please enter a valid phone number with the correct country code.");
+                    return;
+                }
+    
+                const newContact = { name, phone };
+                contacts.push(newContact);
+                updateContactList();
+    
+                // Clear input fields
+                document.getElementById('caregiverName').value = '';
+                document.getElementById('caregiverPhone').value = '';
+                showSuccess(`Contact ${name} added successfully!`);
+            } else {
+                showError("Please fill out all fields correctly.");
+            }
+        }
+    
+        // Update the contact list dynamically
+        function updateContactList() {
+            const contactListContainer = document.getElementById('contactList');
+            contactListContainer.innerHTML = ''; // Clear the current list
+    
+            contacts.forEach((contact, index) => {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+    
+                const chatButton = document.createElement('button');
+                chatButton.textContent = `Chat with ${contact.name}`;
+                chatButton.onclick = () => chatWithContact(contact.phone);
+    
+                const removeButton = document.createElement('button');
+                removeButton.textContent = "Remove";
+                removeButton.className = "remove";
+                removeButton.onclick = () => removeContact(index);
+    
+                contactItem.appendChild(chatButton);
+                contactItem.appendChild(removeButton);
+                contactListContainer.appendChild(contactItem);
+            });
+        }
+    
+        // Function to chat with contact
+        function chatWithContact(phone) {
+            const message = "Hello, I need assistance from you.";
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappLink = `https://wa.me/${phone}?text=${encodedMessage}`;
+            window.open(whatsappLink, '_blank');
+        }
+    
+        // Function to remove a contact
+        function removeContact(index) {
+            contacts.splice(index, 1);
+            updateContactList();
+            showSuccess("Contact removed successfully!");
+        }
+    
+        // Show success message
+        function showSuccess(message) {
+            document.getElementById('success').innerText = message;
+            document.getElementById('success').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('success').style.display = 'none';
+            }, 3000);
+        }
+    
+        // Show error message
+        function showError(message) {
+            document.getElementById('error').innerText = message;
+            document.getElementById('error').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('error').style.display = 'none';
+            }, 3000);
+        }
+    </script>
+    
+</body>
+</html>

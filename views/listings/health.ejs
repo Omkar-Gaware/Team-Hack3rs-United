@@ -1,0 +1,167 @@
+<% layout('/layouts/boilerplate') %>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #131010;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh; /* Full viewport height */
+            background-image: url('https://wallpapers.com/images/hd/cool-medical-and-health-symbols-yk9ofybop75souw0.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            box-shadow: 0px 0px 15px gray;
+            border-radius: 10px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #b9cfdf;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            margin-left: 10px;
+        }
+        h1 {
+            font-size: 2.2em;
+        }
+        button {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: calc(100% - 24px);
+            font-size: 1.2em;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        p {
+            font-size: 1.2em;
+        }
+    </style>
+<body>
+    <div class="container">
+
+        <!-- BMI, Sleep, Water Intake -->
+
+        <!-- Weather & Air Quality -->
+        <div class="section">
+            <h1>Weather & Air Quality</h1>
+            <p id="weather">Fetching...</p>
+            <p id="air-quality">Fetching...</p>
+            <p id="outdoor-suggestion">Checking safety...</p>
+        </div>
+
+        <div class="section">
+            <h1>Health Tracking System</h1>
+            <h1>Health Check</h1>
+            <label for="weight">Weight (kg)</label>
+            <input type="number" id="weight" placeholder="Enter weight in kg">
+            
+            <label for="height">Height (cm)</label>
+            <input type="number" id="height" placeholder="Enter height in cm">
+            
+            <label for="sleep">Sleep Hours (per day)</label>
+            <input type="number" id="sleep" placeholder="Enter sleep hours">
+            
+            <label for="water">Water Intake (liters)</label>
+            <input type="number" id="water" placeholder="Enter water intake in liters">
+            
+            <button onclick="calculateHealth()">Check Health</button>
+            <p id="health-result"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetchWeatherAndAirQuality();
+        });
+
+        // 🏥 Health Check Function
+        function calculateHealth() {
+            let weight = parseFloat(document.getElementById("weight").value);
+            let height = parseFloat(document.getElementById("height").value) / 100; // Convert cm to meters
+            let sleep = parseFloat(document.getElementById("sleep").value);
+            let water = parseFloat(document.getElementById("water").value);
+
+            if (!weight || !height || !sleep || !water) {
+                document.getElementById("health-result").innerText = "⚠ Please enter all details!";
+                return;
+            }
+
+            let bmi = (weight / (height * height)).toFixed(2);
+            let bmiCategory = "";
+            if (bmi < 18.5) bmiCategory = "Underweight";
+            else if (bmi >= 18.5 && bmi <= 24.9) bmiCategory = "Normal Weight ✅";
+            else bmiCategory = "Overweight ⚠";
+
+            let sleepStatus = sleep >= 7 ? "✅ Good Sleep" : "⚠ Not Enough Sleep";
+            let waterStatus = water >= 2 ? "✅ Hydrated" : "⚠ Drink More Water!";
+
+            document.getElementById("health-result").innerHTML = `
+                BMI: ${bmi} (${bmiCategory})<br>
+                Sleep: ${sleepStatus}<br>
+                Water Intake: ${waterStatus}
+            `;
+        }
+
+        // 🌦 Fetch Weather and Air Quality Data
+        function fetchWeatherAndAirQuality() {
+            const url = "https://weatherapi-com.p.rapidapi.com/alerts.json?q=london";
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'x-rapidapi-host': 'weatherapi-com.p.rapidapi.com',
+                    'x-rapidapi-key': 'YOUR-API-KEY-HERE' // Replace with your actual API key
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("API request failed");
+                return response.json();
+            })
+            .then(data => {
+                const alerts = data.alerts || [];
+                let weatherInfo = alerts.length > 0 ? `🌡 Alerts: ${alerts[0].headline}` : "✅ No Weather Alerts";
+                let airQualityInfo = alerts.length > 0 ? `🌍 Air Quality Alert: ${alerts[0].desc}` : "✅ Air Quality Normal";
+
+                document.getElementById("weather").innerText = weatherInfo;
+                document.getElementById("air-quality").innerText = airQualityInfo;
+
+                checkOutdoorSafety(alerts);
+            })
+            .catch(error => {
+                console.error("API Error:", error);
+                document.getElementById("weather").innerText = "⚠ Weather data unavailable.";
+                document.getElementById("air-quality").innerText = "⚠ Air quality data unavailable.";
+            });
+        }
+
+        // 🚷 Suggest if Going Outside is Safe
+        function checkOutdoorSafety(alerts) {
+            let message = alerts.length > 0 ? "⚠ Weather/Air Quality Alerts Present! Stay Cautious." : "✅ Safe to go outside!";
+            document.getElementById("outdoor-suggestion").innerText = message;
+        }
+    </script>
+</body>
+</html>

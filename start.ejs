@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elderly Care Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            background: url('img1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            animation: bgSlide 12s infinite;
+        }
+
+        /* Background slideshow animation */
+        @keyframes bgSlide {
+            0% {
+                background-image: url('https://images.pexels.com/photos/7551667/pexels-photo-7551667.jpeg?cs=srgb&dl=pexels-kampus-7551667.jpg&fm=jpg');
+            }
+            33% {
+                background-image: url('https://images.pexels.com/photos/339620/pexels-photo-339620.jpeg ');
+            }
+            66% {
+                background-image: url('https://media.istockphoto.com/id/1680505097/photo/senior-game-happy-and-men-with-a-high-five-for-success-motivation-or-a-win-smile-together-and.jpg?s=612x612&w=0&k=20&c=9UQi4QFqmAETSY2rsZ-rD6keL5evpLny3bUbfdAcmOA= ');
+            }
+            100% {
+                background-image: url('https://images.pexels.com/photos/7551667/pexels-photo-7551667.jpeg?cs=srgb&dl=pexels-kampus-7551667.jpg&fm=jpg');
+            }
+        }
+
+        /* Content Styling */
+        .container {
+            max-width: 800px;
+            background: rgba(232, 183, 183, 0.5);
+            padding: 30px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Space between content and button */
+            height: 400px; /* Adjust the height of the container */
+        }
+
+        h2 {
+            font-size: 55px;
+            font-weight: bold;
+            color: rgb(15, 14, 14);
+        }
+
+        p {
+            font-size: 22px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .btn-container {
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            background: white;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            background: #f1f1f1;
+        }
+
+        /* Button Styling at the Bottom */
+        .voice-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: auto; /* Pushes the button to the bottom */
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function speakText() {
+            const msg = new SpeechSynthesisUtterance("Welcome to Elderly Care Companion, helping seniors stay healthy, safe, and connected.");
+            msg.lang = "en-US";
+            window.speechSynthesis.speak(msg);
+        }
+    </script>
+
+    <form method="post" action="/listings/start">
+        <div class="container">
+            <h2>Welcome to Elderly Care Companion</h2>
+            <p>Helping seniors stay healthy, safe, and connected.</p>
+
+            <!-- Button container at the bottom of the container -->
+            <div class="voice-btn-container">
+                <button type="button" class="btn btn-primary" onclick="speakText()">Voice Assistant</button>
+            </div>
+
+            <button class="btn">Get Started</button>
+        </div>
+    </form>
+</body>
+</html>
